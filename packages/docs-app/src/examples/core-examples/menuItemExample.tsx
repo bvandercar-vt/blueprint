@@ -44,6 +44,11 @@ export function MenuItemExample(props: ExampleProps) {
     const [submenuEnabled, setSubmenuEnabled] = React.useState(true);
     const [roleStructure, setRoleStructure] = React.useState<MenuItemProps["roleStructure"]>("menuitem");
 
+    const handleRoleStructureChange = React.useCallback(
+        (newValue: string) => setRoleStructure(newValue as MenuItemProps["roleStructure"]),
+        [],
+    );
+
     const isSelectable = roleStructure === "listoption";
 
     const options = (
@@ -73,9 +78,12 @@ export function MenuItemExample(props: ExampleProps) {
             <Switch label="Enable submenu" checked={submenuEnabled} onChange={handleBooleanChange(setSubmenuEnabled)} />
             <IntentSelect intent={intent} onChange={setIntent} showClearButton={true} />
             <FormGroup label="Role structure">
-                <SegmentedControl<MenuItemProps["roleStructure"]>
-                    options={[{ value: "menuitem" }, { value: "listoption" }]}
-                    onValueChange={setRoleStructure}
+                <SegmentedControl
+                    options={[
+                        { label: "menuitem", value: "menuitem" },
+                        { label: "listoption", value: "listoption" },
+                    ]}
+                    onValueChange={handleRoleStructureChange}
                     small={true}
                     value={roleStructure}
                 />
