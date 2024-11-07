@@ -58,7 +58,7 @@ describe("<Select>", () => {
         testsContainerElement?.remove();
     });
 
-    selectComponentSuite<SelectProps<Film, readonly Film[]>, SelectState>(props =>
+    selectComponentSuite<SelectProps<Film>, SelectState>(props =>
         mount(<Select {...props} popoverProps={{ isOpen: true, usePortal: false }} />),
     );
 
@@ -179,9 +179,9 @@ describe("<Select>", () => {
         assert.isTrue(wrapper.find(Popover).prop("isOpen"));
     });
 
-    function select(props: Partial<SelectProps<Film, readonly Film[]>> = {}, query?: string) {
+    function select(props: Partial<SelectProps<Film>> = {}, query?: string) {
         const wrapper = mount(
-            <Select {...defaultProps} {...handlers} {...props}>
+            <Select<Film> {...defaultProps} {...handlers} {...props}>
                 <Button data-testid="target-button" text="Target" />
             </Select>,
             { attachTo: testsContainerElement },

@@ -92,7 +92,7 @@ export class OmnibarExample extends React.PureComponent<ExampleProps, OmnibarExa
                         <KeyComboTag combo="shift + o" />
                     </span>
 
-                    <Omnibar
+                    <Omnibar<Film>
                         {...this.state}
                         createNewItemFromQuery={maybeCreateNewItemFromQuery}
                         createNewItemRenderer={maybeCreateNewItemRenderer}

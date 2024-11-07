@@ -39,12 +39,12 @@ import { Cross } from "@blueprintjs/icons";
 import { Classes, type ListItemsProps, type SelectPopoverProps } from "../../common";
 import { QueryList, type QueryListRendererProps } from "../query-list/queryList";
 
-export interface MultiSelectProps<T, A extends readonly T[] = T[]> extends ListItemsProps<T, A>, SelectPopoverProps {
+export interface MultiSelectProps<T> extends ListItemsProps<T>, SelectPopoverProps {
     /**
      * Element which triggers the multiselect popover. Providing this prop will replace the default TagInput
      * target thats rendered and move the search functionality to within the Popover.
      */
-    customTarget?: (selectedItems: A, isOpen: boolean) => React.ReactNode;
+    customTarget?: (selectedItems: T[], isOpen: boolean) => React.ReactNode;
 
     /**
      * Whether the component is non-interactive.
@@ -104,7 +104,7 @@ export interface MultiSelectProps<T, A extends readonly T[] = T[]> extends ListI
     placeholder?: string;
 
     /** Controlled selected values. */
-    selectedItems: A;
+    selectedItems: T[];
 
     /**
      * Props to pass to the [TagInput component](##core/components/tag-input).
@@ -142,10 +142,7 @@ export interface MultiSelectState {
  *
  * @see https://blueprintjs.com/docs/#select/multi-select
  */
-export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureComponent<
-    MultiSelectProps<T, A>,
-    MultiSelectState
-> {
+export class MultiSelect<T> extends AbstractPureComponent<MultiSelectProps<T>, MultiSelectState> {
     public static displayName = `${DISPLAYNAME_PREFIX}.MultiSelect`;
 
     private listboxId = Utils.uniqueId("listbox");
@@ -167,19 +164,19 @@ export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureCo
 
     public input: HTMLInputElement | null = null;
 
-    public queryList: QueryList<T, A> | null = null;
+    public queryList: QueryList<T> | null = null;
 
     private refHandlers: {
         input: React.RefCallback<HTMLInputElement>;
         popover: React.RefObject<Popover>;
-        queryList: React.RefCallback<QueryList<T, A>>;
+        queryList: React.RefCallback<QueryList<T>>;
     } = {
         input: refHandler(this, "input", this.props.tagInputProps?.inputRef),
         popover: React.createRef(),
-        queryList: (ref: QueryList<T, A> | null) => (this.queryList = ref),
+        queryList: (ref: QueryList<T> | null) => (this.queryList = ref),
     };
 
-    public componentDidUpdate(prevProps: MultiSelectProps<T, A>) {
+    public componentDidUpdate(prevProps: MultiSelectProps<T>) {
         if (prevProps.tagInputProps?.inputRef !== this.props.tagInputProps?.inputRef) {
             setRef(prevProps.tagInputProps?.inputRef, null);
             this.refHandlers.input = refHandler(this, "input", this.props.tagInputProps?.inputRef);
@@ -198,7 +195,7 @@ export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureCo
         const { menuProps, openOnKeyDown, popoverProps, tagInputProps, customTarget, ...restProps } = this.props;
 
         return (
-            <QueryList<T, A>
+            <QueryList<T>
                 {...restProps}
                 menuProps={{
                     "aria-label": "selectable options",
@@ -214,7 +211,7 @@ export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureCo
         );
     }
 
-    private renderQueryList = (listProps: QueryListRendererProps<T, A>) => {
+    private renderQueryList = (listProps: QueryListRendererProps<T>) => {
         const { disabled, popoverContentProps = {}, popoverProps = {} } = this.props;
         const { handleKeyDown, handleKeyUp } = listProps;
 
@@ -270,7 +267,7 @@ export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureCo
     // the "fill" prop. Note that we must take `isOpen` as an argument to force this render function to be called
     // again after that state changes.
     private getPopoverTargetRenderer =
-        (listProps: QueryListRendererProps<T, A>, isOpen: boolean) =>
+        (listProps: QueryListRendererProps<T>, isOpen: boolean) =>
         // N.B. pull out `isOpen` so that it's not forwarded to the DOM, but remember not to use it directly
         // since it may be stale (`renderTarget` is not re-invoked on this.state changes).
         // eslint-disable-next-line react/display-name
@@ -307,7 +304,7 @@ export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureCo
             );
         };
 
-    private getTagInput = (listProps: QueryListRendererProps<T, A>, className?: string) => {
+    private getTagInput = (listProps: QueryListRendererProps<T>, className?: string) => {
         const { disabled, fill, onClear, placeholder, selectedItems, tagInputProps = {} } = this.props;
 
         const maybeClearButton =
@@ -411,7 +408,7 @@ export class MultiSelect<T, A extends readonly T[] = T[]> extends AbstractPureCo
     };
 
     private getTagInputAddHandler =
-        (listProps: QueryListRendererProps<T, A>) => (values: any[], method: TagInputAddMethod) => {
+        (listProps: QueryListRendererProps<T>) => (values: any[], method: TagInputAddMethod) => {
             if (method === "paste") {
                 listProps.handlePaste(values);
             }

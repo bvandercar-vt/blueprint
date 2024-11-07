@@ -30,7 +30,7 @@ export interface Film {
 }
 
 /** Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top */
-export const TOP_100_FILMS: readonly Film[] = [
+export const TOP_100_FILMS: Film[] = [
     { title: "The Shawshank Redemption", year: 1994 },
     { title: "The Godfather", year: 1972 },
     { title: "The Godfather: Part II", year: 1974 },
@@ -270,7 +270,7 @@ export function createFilm(title: string): Film {
     };
 }
 
-export function createFilms(query: string): readonly Film[] {
+export function createFilms(query: string): Film[] {
     const titles = query.split(", ");
     return titles.map((title, index) => ({
         rank: 100 + Math.floor(Math.random() * 100 + index),
@@ -288,23 +288,23 @@ export function doesFilmEqualQuery(film: Film, query: string) {
     return film.title.toLowerCase() === query.toLowerCase();
 }
 
-export function arrayContainsFilm(films: readonly Film[], filmToFind: Film): boolean {
+export function arrayContainsFilm(films: Film[], filmToFind: Film): boolean {
     return films.some((film: Film) => film.title === filmToFind.title);
 }
 
-export function addFilmToArray(films: readonly Film[], filmToAdd: Film): readonly Film[] {
+export function addFilmToArray(films: Film[], filmToAdd: Film) {
     return [...films, filmToAdd];
 }
 
-export function deleteFilmFromArray(films: readonly Film[], filmToDelete: Film): readonly Film[] {
+export function deleteFilmFromArray(films: Film[], filmToDelete: Film) {
     return films.filter(film => film !== filmToDelete);
 }
 
 export function maybeAddCreatedFilmToArrays(
-    items: readonly Film[],
-    createdItems: readonly Film[],
+    items: Film[],
+    createdItems: Film[],
     film: Film,
-): { createdItems: readonly Film[]; items: readonly Film[] } {
+): { createdItems: Film[]; items: Film[] } {
     const isNewlyCreatedItem = !arrayContainsFilm(items, film);
     return {
         createdItems: isNewlyCreatedItem ? addFilmToArray(createdItems, film) : createdItems,
@@ -314,10 +314,10 @@ export function maybeAddCreatedFilmToArrays(
 }
 
 export function maybeDeleteCreatedFilmFromArrays(
-    items: readonly Film[],
-    createdItems: readonly Film[],
+    items: Film[],
+    createdItems: Film[],
     film: Film | undefined,
-): { createdItems: readonly Film[]; items: readonly Film[] } {
+): { createdItems: Film[]; items: Film[] } {
     if (film === undefined) {
         return {
             createdItems,

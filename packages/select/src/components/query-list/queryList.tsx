@@ -30,7 +30,7 @@ import {
     renderFilteredItems,
 } from "../../common";
 
-export interface QueryListProps<T, A extends readonly T[] = T[]> extends ListItemsProps<T, A> {
+export interface QueryListProps<T> extends ListItemsProps<T> {
     /**
      * Initial active item, useful if the parent component is controlling its selectedItem but
      * not activeItem.
@@ -60,7 +60,7 @@ export interface QueryListProps<T, A extends readonly T[] = T[]> extends ListIte
      * Customize rendering of the component.
      * Receives an object with props that should be applied to elements as necessary.
      */
-    renderer: (listProps: QueryListRendererProps<T, A>) => React.JSX.Element;
+    renderer: (listProps: QueryListRendererProps<T>) => React.JSX.Element;
 
     /**
      * Whether the list is disabled.
@@ -74,8 +74,8 @@ export interface QueryListProps<T, A extends readonly T[] = T[]> extends ListIte
  * An object describing how to render a `QueryList`.
  * A `QueryList` `renderer` receives this object as its sole argument.
  */
-export interface QueryListRendererProps<T, A extends readonly T[] = T[]> // Omit `createNewItem`, because it's used strictly for internal tracking.
-    extends Pick<QueryListState<T, A>, "activeItem" | "filteredItems" | "query">,
+export interface QueryListRendererProps<T> // Omit `createNewItem`, because it's used strictly for internal tracking.
+    extends Pick<QueryListState<T>, "activeItem" | "filteredItems" | "query">,
         Props {
     /**
      * Selection handler that should be invoked when a new item has been chosen,
@@ -124,7 +124,7 @@ export interface QueryListRendererProps<T, A extends readonly T[] = T[]> // Omit
 }
 
 /** Exported for testing, not part of public API */
-export interface QueryListState<T, A extends readonly T[] = T[]> {
+export interface QueryListState<T> {
     /** The currently focused item (for keyboard interactions). */
     activeItem: T | CreateNewItem | null;
 
@@ -134,10 +134,10 @@ export interface QueryListState<T, A extends readonly T[] = T[]> {
      * this element will be used to hide the "Create Item" option if its value
      * matches the current `query`.
      */
-    createNewItem: T | A | undefined;
+    createNewItem: T | T[] | undefined;
 
     /** The original `items` array filtered by `itemListPredicate` or `itemPredicate`. */
-    filteredItems: A;
+    filteredItems: T[];
 
     /** The current query string. */
     query: string;
@@ -148,10 +148,7 @@ export interface QueryListState<T, A extends readonly T[] = T[]> {
  *
  * @see https://blueprintjs.com/docs/#select/query-list
  */
-export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponent<
-    QueryListProps<T, A>,
-    QueryListState<T, A>
-> {
+export class QueryList<T> extends AbstractComponent<QueryListProps<T>, QueryListState<T>> {
     public static displayName = `${DISPLAYNAME_PREFIX}.QueryList`;
 
     public static defaultProps = {
@@ -201,7 +198,7 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
      */
     private isEnterKeyPressed = false;
 
-    public constructor(props: QueryListProps<T, A>) {
+    public constructor(props: QueryListProps<T>) {
         super(props);
 
         const { query = "" } = props;
@@ -241,7 +238,7 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
         });
     }
 
-    public componentDidUpdate(prevProps: QueryListProps<T, A>) {
+    public componentDidUpdate(prevProps: QueryListProps<T>) {
         if (this.props.activeItem !== undefined && this.props.activeItem !== this.state.activeItem) {
             this.shouldCheckActiveItemInViewport = true;
             this.setState({ activeItem: this.props.activeItem });
@@ -357,7 +354,7 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
     }
 
     /** default `itemListRenderer` implementation */
-    private renderItemList = (listProps: ItemListRendererProps<T, A>) => {
+    private renderItemList = (listProps: ItemListRendererProps<T>) => {
         const { initialContent, noResults } = this.props;
 
         // omit noResults if createNewItemFromQuery and createNewItemRenderer are both supplied, and query is not empty
@@ -488,7 +485,7 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
         // Find an exising item that exactly matches each pasted value, or
         // create a new item if possible. Ignore unmatched values if creating
         // items is disabled.
-        const pastedItemsToEmit: T[] = [];
+        const pastedItemsToEmit = [];
 
         for (const query of queries) {
             const equalItem = getMatchingItem(query, this.props);
@@ -518,20 +515,22 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
             this.setActiveItem(nextActiveItem);
         }
 
-        onItemsPaste?.(pastedItemsToEmit as readonly T[] as A);
+        onItemsPaste?.(pastedItemsToEmit);
     };
 
     private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-        const { key } = event;
-        const direction = Utils.getArrowKeyDirection(event, ["ArrowUp"], ["ArrowDown"]);
-        if (direction !== undefined) {
-            event.preventDefault();
-            const nextActiveItem = this.getNextActiveItem(direction);
-            if (nextActiveItem != null) {
-                this.setActiveItem(nextActiveItem);
+        if (!event.nativeEvent.isComposing) {
+            const { key } = event;
+            const direction = Utils.getArrowKeyDirection(event, ["ArrowUp"], ["ArrowDown"]);
+            if (direction !== undefined) {
+                event.preventDefault();
+                const nextActiveItem = this.getNextActiveItem(direction);
+                if (nextActiveItem != null) {
+                    this.setActiveItem(nextActiveItem);
+                }
+            } else if (key === "Enter") {
+                this.isEnterKeyPressed = true;
             }
-        } else if (key === "Enter") {
-            this.isEnterKeyPressed = true;
         }
 
         this.props.onKeyDown?.(event);
@@ -587,7 +586,7 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
      * @param createNewItem Checks if this item would match the current query. Cannot check this.state.createNewItem
      *  every time since state may not have been updated yet.
      */
-    private isCreateItemRendered(createNewItem?: T | A): boolean {
+    private isCreateItemRendered(createNewItem?: T | T[]): boolean {
         return (
             this.canCreateItems() &&
             this.state.query !== "" &&
@@ -606,7 +605,7 @@ export class QueryList<T, A extends readonly T[] = T[]> extends AbstractComponen
         return this.props.createNewItemFromQuery != null && this.props.createNewItemRenderer != null;
     }
 
-    private wouldCreatedItemMatchSomeExistingItem(createNewItem?: T | A) {
+    private wouldCreatedItemMatchSomeExistingItem(createNewItem?: T | T[]) {
         // search only the filtered items, not the full items list, because we
         // only need to check items that match the current query.
         return this.state.filteredItems.some(item => {
@@ -626,10 +625,7 @@ function pxToNumber(value: string | null) {
     return value == null ? 0 : parseInt(value.slice(0, -2), 10);
 }
 
-function getMatchingItem<T, A extends readonly T[] = T[]>(
-    query: string,
-    { items, itemPredicate }: QueryListProps<T, A>,
-): T | undefined {
+function getMatchingItem<T>(query: string, { items, itemPredicate }: QueryListProps<T>): T | undefined {
     if (Utils.isFunction(itemPredicate)) {
         // .find() doesn't exist in ES5. Alternative: use a for loop instead of
         // .filter() so that we can return as soon as we find the first match.
@@ -643,15 +639,12 @@ function getMatchingItem<T, A extends readonly T[] = T[]>(
     return undefined;
 }
 
-function getFilteredItems<T, A extends readonly T[] = T[]>(
-    query: string,
-    { items, itemPredicate, itemListPredicate }: QueryListProps<T, A>,
-) {
+function getFilteredItems<T>(query: string, { items, itemPredicate, itemListPredicate }: QueryListProps<T>) {
     if (Utils.isFunction(itemListPredicate)) {
         // note that implementations can reorder the items here
         return itemListPredicate(query, items);
     } else if (Utils.isFunction(itemPredicate)) {
-        return items.filter((item, index) => itemPredicate(query, item, index)) as readonly T[] as A;
+        return items.filter((item, index) => itemPredicate(query, item, index));
     }
     return items;
 }
@@ -666,11 +659,7 @@ function wrapNumber(value: number, min: number, max: number) {
     return value;
 }
 
-function isItemDisabled<T, A extends readonly T[] = T[]>(
-    item: T | null,
-    index: number,
-    itemDisabled?: ListItemsProps<T, A>["itemDisabled"],
-) {
+function isItemDisabled<T>(item: T | null, index: number, itemDisabled?: ListItemsProps<T>["itemDisabled"]) {
     if (itemDisabled == null || item == null) {
         return false;
     } else if (Utils.isFunction(itemDisabled)) {
@@ -688,8 +677,8 @@ function isItemDisabled<T, A extends readonly T[] = T[]>(
  * @param direction amount to move in each iteration, typically +/-1
  * @param startIndex which index to begin moving from
  */
-export function getFirstEnabledItem<T, A extends readonly T[] = T[]>(
-    items: A,
+export function getFirstEnabledItem<T>(
+    items: T[],
     itemDisabled?: keyof T | ((item: T, index: number) => boolean),
     direction = 1,
     startIndex = items.length - 1,
