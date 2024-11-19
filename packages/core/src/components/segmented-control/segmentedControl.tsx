@@ -124,13 +124,17 @@ export const SegmentedControl: SegmentedControlReactFC = React.forwardRef(
             [onValueChange],
         );
 
-    const handleKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLDivElement>) => {
-            if (role === "radiogroup") {
-                // in a `radiogroup`, arrow keys select next item, not tab key.
-                const direction = Utils.getArrowKeyDirection(e, ["ArrowLeft", "ArrowUp"], ["ArrowRight", "ArrowDown"]);
-                const outerElement = outerRef.current;
-                if (direction === undefined || !outerElement) return;
+        const handleKeyDown = React.useCallback(
+            (e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (role === "radiogroup") {
+                    // in a `radiogroup`, arrow keys select next item, not tab key.
+                    const direction = Utils.getArrowKeyDirection(
+                        e,
+                        ["ArrowLeft", "ArrowUp"],
+                        ["ArrowRight", "ArrowDown"],
+                    );
+                    const outerElement = outerRef.current;
+                    if (direction === undefined || !outerElement) return;
 
                     const focusedElement = Utils.getActiveElement(outerElement)?.closest<HTMLButtonElement>("button");
                     if (!focusedElement) return;
