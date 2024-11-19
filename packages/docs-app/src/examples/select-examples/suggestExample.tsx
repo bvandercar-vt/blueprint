@@ -34,10 +34,10 @@ import {
 export interface SuggestExampleState {
     allowCreate: boolean;
     closeOnSelect: boolean;
-    createdItems: readonly Film[];
+    createdItems: Film[];
     disabled: boolean;
     fill: boolean;
-    items: readonly Film[];
+    items: Film[];
     matchTargetWidth: boolean;
     minimal: boolean;
     openOnKeyDown: boolean;
@@ -92,7 +92,7 @@ export class SuggestExample extends React.PureComponent<ExampleProps, SuggestExa
 
         return (
             <Example options={this.renderOptions()} {...this.props}>
-                <Suggest
+                <Suggest<Film>
                     {...flags}
                     createNewItemFromQuery={maybeCreateNewItemFromQuery}
                     createNewItemRenderer={maybeCreateNewItemRenderer}

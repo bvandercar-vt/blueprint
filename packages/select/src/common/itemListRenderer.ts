@@ -20,7 +20,7 @@ import type { CreateNewItem } from "./listItemsUtils";
  * An object describing how to render the list of items.
  * An `itemListRenderer` receives this object as its sole argument.
  */
-export interface ItemListRendererProps<T, A extends readonly T[] = T[]> {
+export interface ItemListRendererProps<T> {
     /**
      * The currently focused item (for keyboard interactions), or `null` to
      * indicate that no item is active.
@@ -35,13 +35,13 @@ export interface ItemListRendererProps<T, A extends readonly T[] = T[]> {
      * map each item in this array through `renderItem`, with support for
      * optional `noResults` and `initialContent` states.
      */
-    filteredItems: A;
+    filteredItems: T[];
 
     /**
      * Array of all items in the list.
      * See `filteredItems` for a filtered array based on `query` and predicate props.
      */
-    items: A;
+    items: T[];
 
     /**
      * The current query string.
@@ -75,17 +75,15 @@ export interface ItemListRendererProps<T, A extends readonly T[] = T[]> {
 }
 
 /** Type alias for a function that renders the list of items. */
-export type ItemListRenderer<T, A extends readonly T[] = T[]> = (
-    itemListProps: ItemListRendererProps<T, A>,
-) => React.JSX.Element | null;
+export type ItemListRenderer<T> = (itemListProps: ItemListRendererProps<T>) => React.JSX.Element | null;
 
 /**
  * `ItemListRenderer` helper method for rendering each item in `filteredItems`,
  * with optional support for `noResults` (when filtered items is empty)
  * and `initialContent` (when query is empty).
  */
-export function renderFilteredItems<T, A extends readonly T[] = T[]>(
-    props: ItemListRendererProps<T, A>,
+export function renderFilteredItems(
+    props: ItemListRendererProps<any>,
     noResults?: React.ReactNode,
     initialContent?: React.ReactNode | null,
 ): React.ReactNode {
