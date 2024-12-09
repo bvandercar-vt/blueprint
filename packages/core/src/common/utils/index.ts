@@ -23,6 +23,7 @@ export {
     throttle,
     throttleEvent,
     throttleReactEventCallback,
+    SELECTOR_FOCUSABLE,
 } from "./domUtils";
 export { isFunction } from "./functionUtils";
 export * from "./jsUtils";

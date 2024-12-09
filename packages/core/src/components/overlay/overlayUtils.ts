@@ -16,6 +16,7 @@
 
 import { OVERLAY_END_FOCUS_TRAP, OVERLAY_START_FOCUS_TRAP } from "../../common/classes";
 import { getRef } from "../../common/refs";
+import { SELECTOR_FOCUSABLE } from "../../common/utils/domUtils";
 
 /**
  * Returns the keyboard-focusable elements inside a given container element, ignoring focus traps
@@ -27,19 +28,8 @@ export function getKeyboardFocusableElements(container: HTMLElement | React.RefO
         containerElement != null
             ? Array.from(
                   // Order may not be correct if children elements use tabindex values > 0.
-                  // Selectors derived from this SO question:
-                  // https://stackoverflow.com/questions/1599660/which-html-elements-can-receive-focus
-                  containerElement.querySelectorAll<HTMLElement>(
-                      [
-                          'a[href]:not([tabindex="-1"])',
-                          'button:not([disabled]):not([tabindex="-1"])',
-                          'details:not([tabindex="-1"])',
-                          'input:not([disabled]):not([tabindex="-1"])',
-                          'select:not([disabled]):not([tabindex="-1"])',
-                          'textarea:not([disabled]):not([tabindex="-1"])',
-                          '[tabindex]:not([tabindex="-1"])',
-                      ].join(","),
-                  ),
+
+                  containerElement.querySelectorAll<HTMLElement>(SELECTOR_FOCUSABLE),
               )
             : [];
 

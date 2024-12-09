@@ -158,3 +158,21 @@ export function clickElementOnKeyPress(keys: string[]) {
         }
     };
 }
+
+/**
+ * Selector for all possible focusable items.
+ *
+ * @example `a[href]:not([tabindex="-1"])`, `[tabindex]:not([tabindex="-1"])`, etc.
+ *
+ * Derived from this SO question:
+ * https://stackoverflow.com/questions/1599660/which-html-elements-can-receive-focus
+ */
+export const SELECTOR_FOCUSABLE = [
+    'a[href]:not([tabindex="-1"])',
+    'button:not([disabled]):not([tabindex="-1"])',
+    'details:not([tabindex="-1"])',
+    'input:not([disabled]):not([tabindex="-1"])',
+    'select:not([disabled]):not([tabindex="-1"])',
+    'textarea:not([disabled]):not([tabindex="-1"])',
+    '[tabindex]:not([tabindex="-1"])',
+].join(",");
