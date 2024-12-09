@@ -165,7 +165,6 @@ export function clickElementOnKeyPress(keys: string[]) {
  * Derived from this SO question: {@link https://stackoverflow.com/questions/1599660/which-html-elements-can-receive-focus}
  *
  * @example `a[href]:not([tabindex="-1"])`, `[tabindex]:not([tabindex="-1"])`, etc.
-
  */
 export const SELECTOR_FOCUSABLE = [
     'a[href]:not([tabindex="-1"])',
