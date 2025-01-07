@@ -16,7 +16,7 @@
 
 import { OVERLAY_END_FOCUS_TRAP, OVERLAY_START_FOCUS_TRAP } from "../../common/classes";
 import { getRef } from "../../common/refs";
-import { SELECTOR_FOCUSABLE } from "../../common/utils/domUtils";
+import { getFocusableElements } from "../../common/utils/domUtils";
 
 /**
  * Returns the keyboard-focusable elements inside a given container element, ignoring focus traps
@@ -24,13 +24,11 @@ import { SELECTOR_FOCUSABLE } from "../../common/utils/domUtils";
  */
 export function getKeyboardFocusableElements(container: HTMLElement | React.RefObject<HTMLElement>): HTMLElement[] {
     const containerElement = getRef(container);
+
     const focusableElements =
         containerElement != null
-            ? Array.from(
-                  // Order may not be correct if children elements use tabindex values > 0.
-
-                  containerElement.querySelectorAll<HTMLElement>(SELECTOR_FOCUSABLE),
-              )
+            ? // Note: Order may not be correct if children elements use tabindex values > 0.
+              getFocusableElements(containerElement)
             : [];
 
     return focusableElements.filter(
