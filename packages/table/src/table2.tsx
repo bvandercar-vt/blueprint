@@ -85,7 +85,7 @@ export interface Table2Props extends TableProps {
 export class Table2 extends AbstractComponent<Table2Props, TableState, TableSnapshot> {
     public static displayName = `${DISPLAYNAME_PREFIX}.Table2`;
 
-    public static defaultProps = {
+    public static defaultProps: Table2Props = {
         defaultColumnWidth: 150,
         defaultRowHeight: 20,
         enableColumnHeader: true,
