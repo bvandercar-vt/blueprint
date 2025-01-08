@@ -59,7 +59,7 @@ export interface SelectableProps {
     /**
      * The the type shape allowed for focus areas. Can be cell, row, or none.
      */
-    focusMode?: FocusMode | undefined;
+    focusMode?: FocusMode;
 
     /**
      * Focused cell coordinate & region utility functions. Exposed as a prop for testing purposes.

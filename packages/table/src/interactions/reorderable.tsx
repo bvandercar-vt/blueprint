@@ -32,7 +32,7 @@ export interface ReorderableProps {
      * disabled. This is used to determine how the focus updates upon
      * reordering.
      */
-    focusMode: FocusMode | undefined;
+    focusMode?: FocusMode;
 
     /**
      * A callback that is called while the user is dragging to reorder.
