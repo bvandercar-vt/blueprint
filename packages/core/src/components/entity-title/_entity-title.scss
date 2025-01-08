@@ -1,14 +1,19 @@
 // Copyright 2024 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "../../common/variables";
-@import "../../common/variables-extended";
+@use "../../common/variables" as *;
+@use "../../common/variables-extended" as *;
+@use "../../typography" as *;
 
 .#{$ns}-entity-title {
   align-items: center;
   display: flex;
   gap: 0.7 * $pt-grid-size;
   min-width: 0;
+
+  &.#{$ns}-fill {
+    width: 100%;
+  }
 
   &-icon-container {
     &.#{$ns}-entity-title-has-subtitle {

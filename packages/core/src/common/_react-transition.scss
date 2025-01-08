@@ -1,6 +1,8 @@
 // Copyright 2016 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
+@use "variables" as *;
+
 /*
 A mixin to generate the classes for a React CSSTransition which animates any number of CSS
 properties at once.
@@ -34,14 +36,24 @@ $after: selector text to insert after transiton name (to select children)
 ) {
   @include each-prop($properties, 2);
   @include react-transition-phase(
-    $name, "enter", $properties,
-    $duration, $easing, $delay,
-    $before, $after
+    $name,
+    "enter",
+    $properties,
+    $duration,
+    $easing,
+    $delay,
+    $before,
+    $after
   );
   @include react-transition-phase(
-    $name, "exit", $properties,
-    $duration, $easing, $delay,
-    $before, $after
+    $name,
+    "exit",
+    $properties,
+    $duration,
+    $easing,
+    $delay,
+    $before,
+    $after
   );
 }
 

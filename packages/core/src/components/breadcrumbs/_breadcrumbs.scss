@@ -1,8 +1,10 @@
 // Copyright 2016 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "@blueprintjs/icons/lib/scss/variables";
-@import "../../common/variables";
+@use "@blueprintjs/colors/lib/scss/colors" as *;
+@use "@blueprintjs/icons/lib/scss/variables" as *;
+@use "../../common/variables" as *;
+@use "../../common/color-aliases" as *;
 
 /*
 Breadcrumbs
@@ -36,7 +38,14 @@ Styleguide breadcrumbs
     display: flex;
 
     &::after {
-      background: svg-icon("16px/chevron-right.svg", (path: (fill: $pt-icon-color)));
+      background: svg-icon(
+        "16px/chevron-right.svg",
+        (
+          path: (
+            fill: $pt-icon-color,
+          ),
+        )
+      );
       content: "";
       display: block;
       height: $pt-icon-size-standard;
@@ -99,7 +108,15 @@ Styleguide breadcrumbs
   vertical-align: text-bottom;
 
   &::before {
-    background: svg-icon("16px/more.svg", (circle: (fill: $pt-icon-color))) center no-repeat;
+    background: svg-icon(
+        "16px/more.svg",
+        (
+          circle: (
+            fill: $pt-icon-color,
+          ),
+        )
+      )
+      center no-repeat;
     content: "";
     display: block;
     height: $pt-icon-size-standard;
@@ -120,7 +137,14 @@ Styleguide breadcrumbs
   }
 
   .#{$ns}-breadcrumbs > li::after {
-    background: svg-icon("16px/chevron-right.svg", (path: (fill: $pt-dark-icon-color)));
+    background: svg-icon(
+      "16px/chevron-right.svg",
+      (
+        path: (
+          fill: $pt-dark-icon-color,
+        ),
+      )
+    );
     color: $pt-dark-icon-color;
   }
 
@@ -136,7 +160,15 @@ Styleguide breadcrumbs
     background: rgba($gray3, 0.2);
 
     &::before {
-      background: svg-icon("16px/more.svg", (circle: (fill: $pt-dark-icon-color))) center no-repeat;
+      background: svg-icon(
+          "16px/more.svg",
+          (
+            circle: (
+              fill: $pt-dark-icon-color,
+            ),
+          )
+        )
+        center no-repeat;
     }
 
     &:hover {

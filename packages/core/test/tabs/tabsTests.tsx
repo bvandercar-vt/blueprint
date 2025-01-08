@@ -25,7 +25,7 @@ import { generateTabIds } from "../../src/components/tabs/tabTitle";
 
 describe("<Tabs>", () => {
     const ID = "tabsTests";
-    // default tabs content is generated from these Dsin each test
+    // default tabs content is generated from these IDs in each test
     const TAB_IDS = ["first", "second", "third"];
 
     // selectors using ARIA role

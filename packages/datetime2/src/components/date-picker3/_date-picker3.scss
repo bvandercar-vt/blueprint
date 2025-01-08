@@ -1,9 +1,11 @@
 // Copyright 2023 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "@blueprintjs/colors/lib/scss/colors";
-@import "@blueprintjs/core/src/components/popover/common";
-@import "@blueprintjs/datetime/src/common";
+@use "@blueprintjs/colors/lib/scss/colors" as *;
+@use "@blueprintjs/core/src/common/color-aliases" as *;
+@use "@blueprintjs/core/src/common/variables" as *;
+@use "@blueprintjs/core/src/components/popover/common" as *;
+@use "@blueprintjs/datetime/src/common" as *;
 
 // react-day-picker does not conform to our naming scheme
 /* stylelint-disable selector-class-pattern */
@@ -68,7 +70,7 @@
     }
 
     // need some extra specificity here to override rdp default styles
-    &:not([disabled]):not(.rdp-day_selected) {
+    &:not([disabled], .rdp-day_selected) {
       &:hover,
       &:focus {
         background: $datepicker-day-background-color-hover;
@@ -125,7 +127,8 @@
   }
 }
 
-.#{$ns}-datepicker-month-select, .#{$ns}-datepicker-year-select {
+.#{$ns}-datepicker-month-select,
+.#{$ns}-datepicker-year-select {
   select {
     font-weight: 600;
     padding-left: $datepicker-padding;
@@ -156,7 +159,7 @@
     }
 
     // need some extra specificity here to override rdp default styles
-    &:not([disabled]):not(.rdp-day_selected) {
+    &:not([disabled], .rdp-day_selected) {
       &:hover,
       &:focus {
         background: $dark-datepicker-day-background-color-hover;

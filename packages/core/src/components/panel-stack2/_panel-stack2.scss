@@ -1,9 +1,11 @@
 // Copyright 2021 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "../../common/variables";
-@import "@blueprintjs/core/src/common/react-transition";
-@import "../card/card-variables";
+@use "../../common/color-aliases" as *;
+@use "../../common/mixins" as *;
+@use "../../common/react-transition" as *;
+@use "../../common/variables" as *;
+@use "../card/card-variables" as *;
 
 .#{$ns}-panel-stack2 {
   overflow: hidden;
@@ -72,14 +74,20 @@
   @include react-transition-phase(
     "#{$ns}-panel-stack2",
     "enter",
-    (transform: translateX(100%) translate(0%), opacity: 0 1),
+    (
+      transform: translateX(100%) translate(0%),
+      opacity: 0 1,
+    ),
     $easing: ease,
     $duration: $pt-transition-duration * 4
   );
   @include react-transition-phase(
     "#{$ns}-panel-stack2",
     "exit",
-    (transform: translateX(-50%) translate(0%), opacity: 0 1),
+    (
+      transform: translateX(-50%) translate(0%),
+      opacity: 0 1,
+    ),
     $easing: ease,
     $duration: $pt-transition-duration * 4
   );
@@ -90,14 +98,20 @@
   @include react-transition-phase(
     "#{$ns}-panel-stack2",
     "enter",
-    (transform: translateX(-50%) translate(0%), opacity: 0 1),
+    (
+      transform: translateX(-50%) translate(0%),
+      opacity: 0 1,
+    ),
     $easing: ease,
     $duration: $pt-transition-duration * 4
   );
   @include react-transition-phase(
     "#{$ns}-panel-stack2",
     "exit",
-    (transform: translateX(100%) translate(0%), opacity: 0 1),
+    (
+      transform: translateX(100%) translate(0%),
+      opacity: 0 1,
+    ),
     $easing: ease,
     $duration: $pt-transition-duration * 4
   );

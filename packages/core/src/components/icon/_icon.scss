@@ -1,10 +1,12 @@
 // Copyright 2015 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "@blueprintjs/icons/lib/scss/variables";
-@import "../../common/variables";
-@import "../../common/variables-extended";
-@import "icon-mixins";
+@use "@blueprintjs/colors/lib/scss/colors" as *;
+@use "@blueprintjs/icons/lib/scss/variables" as *;
+@use "@blueprintjs/icons/lib/scss/blueprint-icons-20" as *;
+@use "../../common/variables" as *;
+@use "../../common/variables-extended" as *;
+@use "icon-mixins" as *;
 
 // the icon class which will contain an SVG icon
 .#{$ns}-icon {
@@ -37,20 +39,20 @@
 
   // muted icon style used by NonIdealState
   &.#{$ns}-icon-muted svg {
-    fill-opacity: 15%;
+    fill-opacity: 0.15;
     // need to show overflow for some strokes on paths that reach the edge of the icon bounding box
     overflow: visible;
 
     path {
       stroke: $gray3;
-      stroke-opacity: 50%;
+      stroke-opacity: 0.5;
       stroke-width: 0.5px;
     }
   }
 
   .#{$ns}-dark & {
     .#{$ns}-icon-muted svg {
-      fill-opacity: 20%;
+      fill-opacity: 0.2;
     }
   }
 }

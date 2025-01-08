@@ -2,35 +2,37 @@
 // Licensed under the Apache License, Version 2.0.
 
 @use "sass:math";
-@import "@blueprintjs/colors/lib/scss/colors";
-@import "flex";
+@use "@blueprintjs/colors/lib/scss/colors" as *;
+@use "color-aliases" as *;
+@use "variables" as *;
+@use "flex" as *;
 
 $pt-intent-colors: (
   "primary": $pt-intent-primary,
   "success": $pt-intent-success,
   "warning": $pt-intent-warning,
-  "danger" : $pt-intent-danger,
+  "danger": $pt-intent-danger,
 ) !default;
 
 $pt-intent-text-colors: (
   "primary": $blue2,
   "success": $green2,
   "warning": $orange2,
-  "danger" : $red2,
+  "danger": $red2,
 ) !default;
 
 $pt-intent-active-text-colors: (
   "primary": $blue1,
   "success": $green1,
   "warning": $orange1,
-  "danger": $red1
+  "danger": $red1,
 ) !default;
 
 $pt-dark-intent-text-colors: (
   "primary": $blue5,
   "success": $green5,
   "warning": $orange5,
-  "danger" : $red5,
+  "danger": $red5,
 ) !default;
 
 @mixin intent-color($intentName) {
@@ -38,11 +40,8 @@ $pt-dark-intent-text-colors: (
 }
 
 @mixin position-all($position, $value) {
-  bottom: $value;
-  left: $value;
+  inset: $value;
   position: $position;
-  right: $value;
-  top: $value;
 }
 
 @mixin base-typography() {

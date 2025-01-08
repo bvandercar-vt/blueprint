@@ -1,6 +1,13 @@
 // Copyright 2017 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
+@use "@blueprintjs/colors/lib/scss/colors" as *;
+@use "@blueprintjs/icons/lib/scss/variables" as *;
+@use "@blueprintjs/core/src/common/color-aliases" as *;
+@use "@blueprintjs/core/src/common/variables" as *;
+@use "@blueprintjs/core/src/components/icon/icon-mixins" as *;
+@use "./content" as *;
+
 .docs-prop-details code {
   /* stylelint-disable declaration-no-important */
   background: none !important;
@@ -16,7 +23,9 @@
 .docs-prop-default {
   font-weight: 400;
 
-  &:empty { display: none; }
+  &:empty {
+    display: none;
+  }
 
   &::before {
     content: "=";
@@ -34,7 +43,9 @@
 }
 
 .docs-prop-tags {
-  &:empty { display: none; }
+  &:empty {
+    display: none;
+  }
 
   .#{$ns}-tag {
     margin-right: $pt-grid-size;

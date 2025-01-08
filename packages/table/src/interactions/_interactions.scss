@@ -1,6 +1,8 @@
 // Copyright 2016 Palantir Technologies, Inc. All rights reserved.
 
-@import "../common/variables";
+@use "@blueprintjs/core/src/common/color-aliases" as *;
+@use "@blueprintjs/core/src/common/variables" as *;
+@use "../common/variables" as *;
 
 $resize-handle-target-width: 5px !default;
 $resize-handle-width: 3px !default;
@@ -52,7 +54,7 @@ $reorder-handle-width: 22px !default;
   }
 }
 
-/* stylelint-disable-next-line max-line-length */
+/* prettier-ignore */
 .#{$ns}-table-column-header-cell.#{$ns}-table-has-reorder-handle:not(.#{$ns}-table-has-interaction-bar) {
   .#{$ns}-table-column-name-text {
     padding-left: $reorder-handle-width;

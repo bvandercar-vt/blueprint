@@ -2,10 +2,12 @@
 // Licensed under the Apache License, Version 2.0.
 
 @use "sass:math";
-@import "@blueprintjs/icons/lib/scss/variables";
-@import "../../common/mixins";
-@import "../../common/react-transition";
-@import "../../common/variables";
+@use "@blueprintjs/colors/lib/scss/colors" as *;
+@use "@blueprintjs/icons/lib/scss/variables" as *;
+@use "../../common/color-aliases" as *;
+@use "../../common/mixins" as *;
+@use "../../common/react-transition" as *;
+@use "../../common/variables" as *;
 
 /*
 Dialog
@@ -42,8 +44,14 @@ $dialog-padding: $pt-grid-size * 1.5 !default;
 
 .#{$ns}-dialog-container {
   $dialog-transition-props: (
-    opacity: (0, 1),
-    transform: (scale(0.5), scale(1))
+    opacity: (
+      0,
+      1,
+    ),
+    transform: (
+      scale(0.5),
+      scale(1),
+    ),
   );
 
   @include react-transition(

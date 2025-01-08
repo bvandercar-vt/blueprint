@@ -1,9 +1,13 @@
 // Copyright 2016 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "../../common/variables";
-@import "../../common/variables-extended";
-@import "../button/common";
+@use "../../common/color-aliases" as *;
+@use "../../common/mixins" as *;
+@use "../../common/variables" as *;
+@use "../../common/variables-extended" as *;
+@use "../button/common" as *;
+@use "../icon/icon-mixins" as *;
+@use "./common" as *;
 
 /*
 Input groups
@@ -82,7 +86,9 @@ $input-button-height-small: $pt-button-height-smaller !default;
     padding: $button-padding-small;
 
     // icons CSS API support
-    &:empty { padding: 0; }
+    &:empty {
+      padding: 0;
+    }
   }
 
   // bump icon or left content up so it sits above input

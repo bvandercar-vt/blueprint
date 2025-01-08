@@ -1,9 +1,13 @@
 // Copyright 2017 Palantir Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-@import "../../common/variables";
-@import "../forms/common";
-@import "../tag/common";
+@use "../../common/color-aliases" as *;
+@use "../../common/flex" as *;
+@use "../../common/mixins" as *;
+@use "../../common/variables" as *;
+@use "../button/common" as *;
+@use "../forms/common" as *;
+@use "../tag/common" as *;
 
 $tag-input-padding: ($pt-input-height - $tag-height) * 0.5 !default;
 
@@ -143,7 +147,7 @@ $tag-input-icon-padding-large: ($pt-input-height-large - $pt-icon-size-large) * 
     &.#{$ns}-active {
       background-color: $dark-input-background-color;
       box-shadow: dark-input-transition-shadow($dark-input-shadow-color-focus, true),
-                  $pt-dark-input-box-shadow;
+        $pt-dark-input-box-shadow;
 
       @each $intent, $color in $pt-dark-input-intent-box-shadow-colors {
         &.#{$ns}-intent-#{$intent} {
