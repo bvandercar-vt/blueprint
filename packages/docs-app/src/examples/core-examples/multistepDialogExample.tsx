@@ -173,7 +173,7 @@ export class MultistepDialogExample extends React.PureComponent<
                     <SegmentedControl<MultistepDialogNavPosition>
                         fill={true}
                         onValueChange={this.handleNavPositionChange}
-                        options={NAV_POSITIONS.map(p => ({ label: p, value: p }))}
+                        options={NAV_POSITIONS.map(p => ({ value: p }))}
                         small={true}
                         value={navPosition}
                     />
