@@ -83,10 +83,15 @@ export interface SegmentedControlProps<T extends string = string>
     small?: boolean;
 }
 
-// This makes the react FC a generic, allowing the ability to pass a more strict
-// type for `options`/`onValueChange` i.e. <SegmentedControl<Intent> />
-interface SegmentedControlReactFC extends React.FC<SegmentedControlProps> {
-    <T extends string>(props: SegmentedControlProps<T>): ReturnType<React.FC<SegmentedControlProps<T>>>;
+/**
+ * Generic component type. This is essentially a type hack required to make forwardRef work with generic
+ * components. Note that this slows down TypeScript compilation, but is better than the alternative of globally
+ * augmenting "@types/react".
+ *
+ * @see https://stackoverflow.com/a/73795494/7406866
+ */
+export interface SegmentedControlComponent extends React.FC<SegmentedControlProps> {
+    <T extends string>(props: SegmentedControlProps<T>): React.ReactElement | null;
 }
 
 /**
@@ -94,7 +99,7 @@ interface SegmentedControlReactFC extends React.FC<SegmentedControlProps> {
  *
  * @see https://blueprintjs.com/docs/#core/components/segmented-control
  */
-export const SegmentedControl: SegmentedControlReactFC = React.forwardRef(
+export const SegmentedControl: SegmentedControlComponent = React.forwardRef(
     <T extends string>(props: SegmentedControlProps<T>, ref: React.ForwardedRef<HTMLDivElement>) => {
         const {
             className,
