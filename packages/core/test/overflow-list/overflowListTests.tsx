@@ -138,7 +138,7 @@ describe("<OverflowList>", function (this) {
         it("invoked once per resize", async () => {
             // initial render shows all items (empty overflow)
             await overflowList(200).waitForResize();
-            // assert that at given width, onOverflow receives given Ds
+            // assert that at given width, onOverflow receives given IDs
             const tests = [
                 { width: 15, overflowIds: [0, 1, 2, 3, 4] },
                 { width: 55, overflowIds: [0] },
@@ -216,7 +216,7 @@ describe("<OverflowList>", function (this) {
             return wrapper;
         };
 
-        /** Asserts that the last call to `onOverflow` received the given item Ds. */
+        /** Asserts that the last call to `onOverflow` received the given item IDs. */
         wrapper.assertLastOnOverflowArgs = (ids: number[]) => {
             assert.sameMembers(
                 onOverflowSpy.lastCall.args[0].map((i: TestItemProps) => i.id),
@@ -227,7 +227,7 @@ describe("<OverflowList>", function (this) {
 
         /**
          * Invokes both assertions below with the expected visible and
-         * overflow Dsassuming `collapseFrom="start"`.
+         * overflow IDs assuming `collapseFrom="start"`.
          */
         wrapper.assertVisibleItemSplit = (visibleCount: number) => {
             const ids = (props.items ?? ITEMS).map(it => it.id);
@@ -236,7 +236,7 @@ describe("<OverflowList>", function (this) {
                 .assertVisibleItems(...ids.slice(-visibleCount));
         };
 
-        /** Assert ordered Dsof overflow items. */
+        /** Assert ordered IDs of overflow items. */
         wrapper.assertOverflowItems = (...ids: number[]) => {
             const overflowItems = wrapper.find(TestOverflow).prop("items");
             assert.sameMembers(
@@ -247,7 +247,7 @@ describe("<OverflowList>", function (this) {
             return wrapper;
         };
 
-        /** Assert ordered Dsof visible items. */
+        /** Assert ordered IDs of visible items. */
         wrapper.assertVisibleItems = (...ids: number[]) => {
             const visibleItems = wrapper.find(TestItem).map(div => div.prop("id"));
             assert.sameMembers(visibleItems, ids, "visible items");

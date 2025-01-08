@@ -242,6 +242,6 @@ function SegmentedControlOption({ label, onClick, value, ...buttonProps }: Segme
         [onClick, value],
     );
 
-    return <Button {...buttonProps} onClick={handleClick} text={label} />;
+    return <Button {...buttonProps} onClick={handleClick} text={label ?? value} />;
 }
 SegmentedControlOption.displayName = `${DISPLAYNAME_PREFIX}.SegmentedControlOption`;
