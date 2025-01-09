@@ -17,7 +17,7 @@
 import classNames from "classnames";
 import * as React from "react";
 
-import { type IconName } from "@blueprintjs/icons";
+import { ChevronDown, ChevronUp, type IconName } from "@blueprintjs/icons";
 
 import { Classes, Elevation, Utils } from "../../common";
 import { DISPLAYNAME_PREFIX, type HTMLDivProps, type MaybeElement, type Props } from "../../common/props";
@@ -201,19 +201,19 @@ export const Section: React.FC<SectionProps> = React.forwardRef((props, ref) => 
                         <div className={Classes.SECTION_HEADER_RIGHT}>
                             {rightElement}
                             {collapsible && (
-                                <Icon
-                                    icon={isCollapsed ? "chevron-up" : "chevron-down"}
-                                    className={classNames(Classes.TEXT_MUTED, Classes.INTERACTIVE)}
+                                <span
                                     role="button"
                                     tabIndex={0}
                                     aria-pressed={isCollapsed}
                                     aria-expanded={isCollapsed}
                                     aria-controls={sectionId}
-                                    aria-hidden={false}
-                                    title={isCollapsed ? "expand section" : "collapse section"}
+                                    aria-label={isCollapsed ? "expand section" : "collapse section"}
                                     onClick={toggleIsCollapsed}
                                     onKeyDown={clickElementOnKeyPress(["Enter", " "])}
-                                />
+                                    className={classNames(Classes.TEXT_MUTED, Classes.INTERACTIVE)}
+                                >
+                                    {isCollapsed ? <ChevronDown /> : <ChevronUp />}
+                                </span>
                             )}
                         </div>
                     )}
